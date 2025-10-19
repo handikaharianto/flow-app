@@ -1,4 +1,3 @@
-import Header from "@/components/header";
 import { getUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 
@@ -11,12 +10,7 @@ async function ProtectedLayout({
 
   if (!user) redirect("/sign-in");
 
-  return (
-    <>
-      <Header />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
 
 export default ProtectedLayout;
