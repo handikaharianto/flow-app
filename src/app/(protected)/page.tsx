@@ -1,14 +1,11 @@
-import axiosInstance from "@/lib/axios";
-import { cookies } from "next/headers";
+"use client";
 
-const HomePage = async () => {
-  const response = await axiosInstance({
-    url: "http://localhost:3000/api/orders",
-    method: "GET",
-  });
-  const { rows, total } = response.data;
+import { redirect, usePathname } from "next/navigation";
 
-  return <div>{JSON.stringify(rows)}</div>;
-};
+function Page() {
+  const pathname = usePathname();
 
-export default HomePage;
+  if (pathname === "/") redirect("/dashboard");
+}
+
+export default Page;
