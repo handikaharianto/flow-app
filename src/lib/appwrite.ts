@@ -1,9 +1,38 @@
-import { APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID } from "@/lib/constants";
-import { Client, Account } from "appwrite";
+import { Client, Account, TablesDB } from "node-appwrite";
 
-export const client = new Client();
+async function createAdminClient() {
+  const client = new Client()
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT as string)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID as string)
+    .setKey(process.env.NEXT_PUBLIC_API_KEY as string);
 
-client.setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT_ID); // Replace with your project ID
+  return {
+    get account() {
+      return new Account(client);
+    },
+    get tablesDB() {
+      return new TablesDB(client);
+    },
+  };
+}
 
-export const account = new Account(client);
-export { ID } from "appwrite";
+async function createSessionClient(sessionCookie?: string) {
+  const client = new Client()
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT as string)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID as string);
+
+  if (sessionCookie) {
+    client.setSession(sessionCookie);
+  }
+
+  return {
+    get account() {
+      return new Account(client);
+    },
+    get tablesDB() {
+      return new TablesDB(client);
+    },
+  };
+}
+
+export { createAdminClient, createSessionClient };
