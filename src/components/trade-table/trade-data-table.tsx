@@ -27,7 +27,6 @@ import {
   IconChevronsLeft,
   IconChevronsRight,
   IconLayoutColumns,
-  IconPlus,
 } from "@tabler/icons-react";
 import {
   ColumnFiltersState,
@@ -43,8 +42,6 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { z } from "zod";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -71,6 +68,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { columns } from "@/components/trade-table/trade-table-columns";
 import { TradePlan } from "@/types/trade";
+import AddTradePlan from "@/components/trade-table/add-trade-plan";
 
 function DraggableRow({ row }: { row: Row<TradePlan> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
@@ -158,17 +156,18 @@ function TradeDataTable({ data: initialData }: { data: TradePlan[] }) {
     }
   }
 
+  function addNewTradePlanToTable(newTradePlan: TradePlan) {
+    setData((prevData) => [newTradePlan, ...prevData]);
+  }
+
   return (
-    <Tabs
-      defaultValue="outline"
-      className="w-full flex-col justify-start gap-6"
-    >
+    <Tabs defaultValue="all" className="w-full flex-col justify-start gap-6">
       <div className="flex items-center justify-between px-4 lg:px-6">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
         {/* Mobile view for Category using Select*/}
-        <Select defaultValue="outline">
+        <Select defaultValue="all">
           <SelectTrigger
             className="flex w-fit @4xl/main:hidden"
             size="sm"
@@ -177,22 +176,16 @@ function TradeDataTable({ data: initialData }: { data: TradePlan[] }) {
             <SelectValue placeholder="Select a view" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="outline">Outline</SelectItem>
-            <SelectItem value="past-performance">Past Performance</SelectItem>
-            <SelectItem value="key-personnel">Key Personnel</SelectItem>
-            <SelectItem value="focus-documents">Focus Documents</SelectItem>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="wins">Wins</SelectItem>
+            <SelectItem value="losses">Losses</SelectItem>
           </SelectContent>
         </Select>
         {/* Desktop view for Category using Tabs */}
         <TabsList className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
-          <TabsTrigger value="outline">Outline</TabsTrigger>
-          <TabsTrigger value="past-performance">
-            Past Performance <Badge variant="secondary">3</Badge>
-          </TabsTrigger>
-          <TabsTrigger value="key-personnel">
-            Key Personnel <Badge variant="secondary">2</Badge>
-          </TabsTrigger>
-          <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger>
+          <TabsTrigger value="all">All</TabsTrigger>
+          <TabsTrigger value="wins">Wins</TabsTrigger>
+          <TabsTrigger value="losses">Losses</TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
           <DropdownMenu>
@@ -228,14 +221,11 @@ function TradeDataTable({ data: initialData }: { data: TradePlan[] }) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" size="sm">
-            <IconPlus />
-            <span className="hidden lg:inline">Add Trade Plan</span>
-          </Button>
+          <AddTradePlan addNewTradePlanToTable={addNewTradePlanToTable} />
         </div>
       </div>
       <TabsContent
-        value="outline"
+        value="all"
         className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
       >
         <div className="overflow-hidden rounded-lg border">
@@ -370,19 +360,10 @@ function TradeDataTable({ data: initialData }: { data: TradePlan[] }) {
           </div>
         </div>
       </TabsContent>
-      <TabsContent
-        value="past-performance"
-        className="flex flex-col px-4 lg:px-6"
-      >
+      <TabsContent value="wins" className="flex flex-col px-4 lg:px-6">
         <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
       </TabsContent>
-      <TabsContent value="key-personnel" className="flex flex-col px-4 lg:px-6">
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
-      </TabsContent>
-      <TabsContent
-        value="focus-documents"
-        className="flex flex-col px-4 lg:px-6"
-      >
+      <TabsContent value="losses" className="flex flex-col px-4 lg:px-6">
         <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
       </TabsContent>
     </Tabs>
