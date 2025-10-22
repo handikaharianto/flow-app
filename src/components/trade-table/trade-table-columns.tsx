@@ -79,10 +79,37 @@ export const columns: ColumnDef<TradePlan>[] = [
   },
   {
     accessorKey: "entry",
-    header: "Entry",
+    header: "Entry Price",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
         {row.original.entry}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "target",
+    header: "Target Price",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.target}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "stopLoss",
+    header: "Stop Loss Price",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.stopLoss}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "result",
+    header: "Result",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.result ?? "N/A"}
       </Badge>
     ),
   },

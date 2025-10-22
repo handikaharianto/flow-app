@@ -17,3 +17,13 @@ export type AddTradePlanResponse = {
   message: string;
   data?: TradePlan;
 };
+
+export enum TradeSide {
+  LONG = "LONG",
+  SHORT = "SHORT",
+}
+
+export enum TradeResult {
+  WIN = "WIN",
+  LOSS = "LOSS",
+}

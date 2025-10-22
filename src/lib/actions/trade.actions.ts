@@ -59,7 +59,6 @@ export async function addTradePlan(
       },
     });
 
-    console.log(response);
     return {
       success: true,
       message: "A new trade plan has been added successfully.",
@@ -67,6 +66,9 @@ export async function addTradePlan(
         symbol: response.symbol,
         side: response.side,
         entry: response.entry,
+        target: response.target,
+        stopLoss: response.stopLoss,
+        result: response.result,
         userId: response.userId,
         $id: response.$id,
         $createdAt: response.$createdAt,

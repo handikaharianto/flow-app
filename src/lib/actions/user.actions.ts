@@ -29,8 +29,6 @@ export async function signInUser(
       path: "/dashboard",
     });
 
-    // redirect("/");
-
     return {
       success: true,
       message: "You have successfully signed in.",
