@@ -22,7 +22,16 @@ async function ProtectedLayout({
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" />
+      <AppSidebar
+        user={{
+          id: user.$id,
+          name: user.name,
+          email: user.email,
+          createdAt: user.$createdAt,
+          updatedAt: user.$updatedAt,
+        }}
+        variant="inset"
+      />
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">
