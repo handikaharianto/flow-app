@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sidebar";
 import { User } from "@/types/user";
 import { getFirstNameInitial } from "@/lib/utils";
+import { logoutUser } from "@/lib/actions/user.actions";
 
 type Props = {
   user: User;
@@ -94,7 +95,7 @@ export function NavUser({ user }: Props) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logoutUser}>
               <IconLogout />
               Log out
             </DropdownMenuItem>
