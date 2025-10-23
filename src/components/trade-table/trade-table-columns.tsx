@@ -3,35 +3,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { TradePlan } from "@/types/trade";
 import TradeTableCellViewer from "@/components/trade-table/trade-table-cell-viewer";
 import { Badge } from "@/components/ui/badge";
-import { IconGripVertical } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
-import { useSortable } from "@dnd-kit/sortable";
-
-function DragHandle({ id }: { id: string }) {
-  const { attributes, listeners } = useSortable({
-    id,
-  });
-
-  return (
-    <Button
-      {...attributes}
-      {...listeners}
-      variant="ghost"
-      size="icon"
-      className="text-muted-foreground size-7 hover:bg-transparent"
-    >
-      <IconGripVertical className="text-muted-foreground size-3" />
-      <span className="sr-only">Drag to reorder</span>
-    </Button>
-  );
-}
 
 export const columns: ColumnDef<TradePlan>[] = [
-  {
-    id: "drag",
-    header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original.$id} />,
-  },
   {
     id: "select",
     header: ({ table }) => (

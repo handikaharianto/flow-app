@@ -220,7 +220,6 @@ function AddTradePlan({ addNewTradePlanToTable }: Props) {
           </ScrollArea>
           <DrawerFooter className="mt-auto">
             <Button type="submit">Submit</Button>
-            <Button onClick={() => toast.success("hello")}>click me</Button>
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>
             </DrawerClose>
