@@ -4,7 +4,7 @@ import { getUser } from "@/lib/actions/user.actions";
 import { createSessionClient } from "@/lib/appwrite";
 import { DATABASE_ID, WATCHLISTS_TABLE_ID } from "@/lib/constants";
 import { addWatchlistBoardSchema } from "@/lib/validators";
-import { AddWatchlistBoardResponse } from "@/types/watchlist";
+import { AddWatchlistBoardResponse, Watchlist } from "@/types/watchlist";
 import { cookies } from "next/headers";
 import { ID, Models } from "node-appwrite";
 import { z } from "zod";
@@ -22,9 +22,7 @@ export async function addWatchlistBoard(
       throw new Error("User not found.");
     }
 
-    const response = await tablesDB.createRow<
-      Models.DefaultRow & z.infer<typeof addWatchlistBoardSchema>
-    >({
+    const response = await tablesDB.createRow<Models.DefaultRow & Watchlist>({
       databaseId: DATABASE_ID,
       tableId: WATCHLISTS_TABLE_ID,
       rowId: ID.unique(),
