@@ -14,14 +14,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Watchlist } from "@/types/watchlist";
 import { MoreHorizontalIcon, PenIcon, Trash2Icon } from "lucide-react";
 
 type Props = {
-  column: Column;
+  watchlistBoard: Watchlist;
   isEditingTitle: boolean;
 };
 
-function WatchlistColumnHeader({ column, isEditingTitle }: Props) {
+function WatchlistBoardHeader({ watchlistBoard, isEditingTitle }: Props) {
   return (
     <KanbanBoardColumnHeader>
       {isEditingTitle ? (
@@ -37,7 +38,7 @@ function WatchlistColumnHeader({ column, isEditingTitle }: Props) {
           <Input
             aria-label="Column title"
             autoFocus
-            defaultValue={column.title}
+            defaultValue={watchlistBoard.title}
             name="columnTitle"
             // onKeyDown={event => {
             //   if (event.key === 'Escape') {
@@ -49,9 +50,9 @@ function WatchlistColumnHeader({ column, isEditingTitle }: Props) {
         </form>
       ) : (
         <>
-          <KanbanBoardColumnTitle columnId={column.id}>
-            <KanbanColorCircle color={column.color} />
-            {column.title}
+          <KanbanBoardColumnTitle columnId={watchlistBoard.$id}>
+            {/* <KanbanColorCircle color={column.color} /> */}
+            {watchlistBoard.title}
           </KanbanBoardColumnTitle>
 
           <DropdownMenu>
@@ -61,7 +62,9 @@ function WatchlistColumnHeader({ column, isEditingTitle }: Props) {
               >
                 <MoreHorizontalIcon />
 
-                <span className="sr-only">More options for {column.title}</span>
+                <span className="sr-only">
+                  More options for {watchlistBoard.title}
+                </span>
               </KanbanBoardColumnIconButton>
             </DropdownMenuTrigger>
 
@@ -92,4 +95,4 @@ function WatchlistColumnHeader({ column, isEditingTitle }: Props) {
   );
 }
 
-export default WatchlistColumnHeader;
+export default WatchlistBoardHeader;

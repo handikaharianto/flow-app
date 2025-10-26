@@ -1,5 +1,6 @@
 import { KanbanBoardCircleColor } from "@/components/kanban";
 import WatchlistKanbanBoard from "@/components/watchlist-board/watchlist-kanban-board";
+import { getWatchlistBoard } from "@/lib/actions/watchlist.actions";
 
 export type Card = {
   id: string;
@@ -13,8 +14,11 @@ export type Column = {
   items: Card[];
 };
 
-function WatchlistPage() {
-  return <WatchlistKanbanBoard />;
+async function WatchlistPage() {
+  const watchlists = await getWatchlistBoard();
+  console.log(watchlists);
+
+  return <WatchlistKanbanBoard watchlists={watchlists} />;
 }
 
 export default WatchlistPage;
