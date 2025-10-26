@@ -22,3 +22,10 @@ export const addTradePlanSchema = z.object({
     .regex(/^\d+(\.\d+)?$/, "Stop loss must be a valid number"),
   result: z.enum(TradeResult).optional(),
 });
+
+export const addWatchlistBoardSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(50, "Title must be at most 50 characters long"),
+});

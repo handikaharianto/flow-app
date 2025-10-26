@@ -26,7 +26,7 @@ export async function signInUser(
       sameSite: "strict",
       secure: true,
       expires: new Date(session.expire),
-      path: "/dashboard",
+      path: "/",
     });
 
     return {
