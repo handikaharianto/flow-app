@@ -12,19 +12,21 @@ import {
 } from "@/components/ui/tooltip";
 import { addWatchlistBoardSchema } from "@/lib/validators";
 import { PlusIcon } from "lucide-react";
-import { FormEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addWatchlistBoard } from "@/lib/actions/watchlist.actions";
 import { Field, FieldGroup } from "@/components/ui/field";
+import { Watchlist } from "@/types/watchlist";
+import { toast } from "sonner";
 
 type Props = {
-  //   onAddColumn: (columnTitle?: string) => void;
+  onAddWatchlistBoard: (newWatchlistBoard: Watchlist) => void;
 };
 
-function AddWatchlistBoard({}: Props) {
+function AddWatchlistBoard({ onAddWatchlistBoard }: Props) {
   const [showEditor, setShowEditor] = useState(false);
   const newColumnButtonReference = useRef<HTMLButtonElement>(null);
   const inputReference = useRef<HTMLInputElement>(null);
@@ -36,37 +38,28 @@ function AddWatchlistBoard({}: Props) {
     },
   });
 
-  function handleAddColumnClick() {
-    flushSync(() => {
-      setShowEditor(true);
-    });
-
-    // onAddColumn();
+  function handleAddWatchlistBoardClick() {
+    setShowEditor(true);
   }
 
-  function handleCancelClick() {
-    flushSync(() => {
-      setShowEditor(false);
-    });
+  function handleCancelWatchlistBoardClick() {
+    setShowEditor(false);
 
     newColumnButtonReference.current?.focus();
   }
 
-  // function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-  //   const columnTitle = formData.get("columnTitle") as string;
-  //   // onAddColumn(columnTitle);
-  //   if (inputReference.current) {
-  //     inputReference.current.value = "";
-  //   }
-  // }
-
   async function submitForm(data: z.infer<typeof addWatchlistBoardSchema>) {
-    console.log(data);
-
     const response = await addWatchlistBoard(data);
-    console.log(response);
+
+    if (response.success) {
+      toast.success(response.message);
+      onAddWatchlistBoard(response.data!);
+
+      form.reset();
+      setShowEditor(false);
+    } else {
+      toast.error(response.message);
+    }
   }
 
   return showEditor ? (
@@ -74,7 +67,7 @@ function AddWatchlistBoard({}: Props) {
       className={kanbanBoardColumnClassNames}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) {
-          handleCancelClick();
+          handleCancelWatchlistBoardClick();
         }
       }}
       onSubmit={form.handleSubmit(submitForm)}
@@ -97,7 +90,7 @@ function AddWatchlistBoard({}: Props) {
                   ref={inputReference}
                   onKeyDown={(event) => {
                     if (event.key === "Escape") {
-                      handleCancelClick();
+                      handleCancelWatchlistBoardClick();
                     }
                   }}
                 />
@@ -113,7 +106,7 @@ function AddWatchlistBoard({}: Props) {
         </Button>
 
         <Button
-          onClick={handleCancelClick}
+          onClick={handleCancelWatchlistBoardClick}
           size="sm"
           type="button"
           variant="outline"
@@ -126,7 +119,7 @@ function AddWatchlistBoard({}: Props) {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          onClick={handleAddColumnClick}
+          onClick={handleAddWatchlistBoardClick}
           ref={newColumnButtonReference}
           variant="outline"
         >

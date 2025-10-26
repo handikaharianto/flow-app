@@ -7,7 +7,6 @@ import {
   KanbanBoardProvider,
 } from "@/components/kanban";
 import AddWatchlistBoard from "@/components/watchlist-board/add-watchlist-board";
-import AddWatchlistCard from "@/components/watchlist-board/add-watchlist-card";
 import WatchlistBoardHeader from "@/components/watchlist-board/watchlist-board-header";
 import WatchlistItemList from "@/components/watchlist-board/watchlist-item-list";
 import { useJsLoaded } from "@/hooks/use-js-loaded";
@@ -24,6 +23,13 @@ function WatchlistKanbanBoard({ watchlists }: Props) {
   const [watchlistBoards, setWatchlistBoards] = useState<Watchlist[]>(
     () => watchlists,
   );
+
+  function handleAddWatchlistBoard(newWatchlistBoard: Watchlist) {
+    setWatchlistBoards((currentWatchlistBoards) => [
+      ...currentWatchlistBoards,
+      newWatchlistBoard,
+    ]);
+  }
 
   return (
     <KanbanBoardProvider>
@@ -43,7 +49,7 @@ function WatchlistKanbanBoard({ watchlists }: Props) {
               {/* Kanban Item List */}
               <WatchlistItemList watchlistBoard={watchlistBoard} />
 
-              {/* <AddWatchlistCard column={column} /> */}
+              {/* <AddWatchlistCard watchlistBoard={watchlistBoard} /> */}
             </KanbanBoardColumn>
           ) : (
             <div key={watchlistBoard.$id}>loading</div>
@@ -52,9 +58,7 @@ function WatchlistKanbanBoard({ watchlists }: Props) {
 
         {/* Add a new column */}
         {jsLoaded ? (
-          <AddWatchlistBoard
-          // onAddColumn={handleAddColumn}
-          />
+          <AddWatchlistBoard onAddWatchlistBoard={handleAddWatchlistBoard} />
         ) : (
           <div>loading</div>
         )}
