@@ -1,9 +1,7 @@
-import { Column } from "@/app/(protected)/watchlist/page";
 import {
   KanbanBoardColumnHeader,
   KanbanBoardColumnIconButton,
   KanbanBoardColumnTitle,
-  KanbanColorCircle,
 } from "@/components/kanban";
 import {
   DropdownMenu,

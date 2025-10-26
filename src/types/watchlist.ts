@@ -12,6 +12,7 @@ export type Watchlist = z.infer<typeof addWatchlistBoardSchema> & {
 export type WatchlistItem = {
   $id: string;
   title: string;
+  watchlist: string;
   $createdAt: string;
   $updatedAt: string;
 };

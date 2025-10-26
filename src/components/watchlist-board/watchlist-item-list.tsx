@@ -1,24 +1,24 @@
-import { Card, Column } from "@/app/(protected)/watchlist/page";
 import {
   KanbanBoardColumnList,
   KanbanBoardColumnListItem,
 } from "@/components/kanban";
 import WatchlistCard from "@/components/watchlist-board/watchlist-card";
+import { Watchlist } from "@/types/watchlist";
 
 type Props = {
-  column: Column;
+  watchlistBoard: Watchlist;
 };
 
-function WatchlistItemList({ column }: Props) {
+function WatchlistItemList({ watchlistBoard }: Props) {
   return (
     <KanbanBoardColumnList>
-      {column.items.map((card: Card) => (
+      {watchlistBoard.items.map((item) => (
         <KanbanBoardColumnListItem
-          cardId={card.id}
-          key={card.id}
+          cardId={item.$id}
+          key={item.$id}
           // onDropOverListItem={handleDropOverListItem(card.id)}
         >
-          <WatchlistCard card={card} isActive={true} />
+          <WatchlistCard watchlistItem={item} isActive={true} />
           {/* <MyKanbanBoardCard
                       card={card}
                       isActive={activeCardId === card.id}

@@ -1,4 +1,3 @@
-import { Card } from "@/app/(protected)/watchlist/page";
 import {
   KanbanBoardCard,
   KanbanBoardCardButton,
@@ -6,12 +5,13 @@ import {
   KanbanBoardCardDescription,
   KanbanBoardCardTextarea,
 } from "@/components/kanban";
+import { WatchlistItem } from "@/types/watchlist";
 import { Trash2Icon } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 type Props = {
-  card: Card;
+  watchlistItem: WatchlistItem;
   isActive: boolean;
   //   onCardBlur: () => void;
   //   onCardKeyDown: (
@@ -22,7 +22,7 @@ type Props = {
   //   onUpdateCardTitle: (cardId: string, cardTitle: string) => void;
 };
 
-function WatchlistCard({ card, isActive }: Props) {
+function WatchlistCard({ watchlistItem, isActive }: Props) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const kanbanBoardCardReference = useRef<HTMLButtonElement>(null);
   // This ref tracks the previous `isActive` state. It is used to refocus the
@@ -71,7 +71,7 @@ function WatchlistCard({ card, isActive }: Props) {
       <KanbanBoardCardTextarea
         aria-label="Edit card title"
         autoFocus
-        defaultValue={card.title}
+        defaultValue={watchlistItem.title}
         name="cardTitle"
         onFocus={(event) => event.target.select()}
         onInput={(event) => {
@@ -101,7 +101,10 @@ function WatchlistCard({ card, isActive }: Props) {
     </form>
   ) : (
     <KanbanBoardCard
-      data={card}
+      data={{
+        ...watchlistItem,
+        id: watchlistItem.$id,
+      }}
       isActive={isActive}
       //   onBlur={onCardBlur}
       onClick={() => setIsEditingTitle(true)}
@@ -121,7 +124,9 @@ function WatchlistCard({ card, isActive }: Props) {
       }}
       ref={kanbanBoardCardReference}
     >
-      <KanbanBoardCardDescription>{card.title}</KanbanBoardCardDescription>
+      <KanbanBoardCardDescription>
+        {watchlistItem.title}
+      </KanbanBoardCardDescription>
       <KanbanBoardCardButtonGroup disabled={isActive}>
         <KanbanBoardCardButton
           className="text-destructive"
