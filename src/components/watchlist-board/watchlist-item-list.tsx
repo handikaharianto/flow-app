@@ -2,7 +2,7 @@ import {
   KanbanBoardColumnList,
   KanbanBoardColumnListItem,
 } from "@/components/kanban";
-import WatchlistCard from "@/components/watchlist-board/watchlist-card";
+import WatchlistItemCard from "@/components/watchlist-board/watchlist-item-card";
 import { Watchlist } from "@/types/watchlist";
 
 type Props = {
@@ -18,7 +18,7 @@ function WatchlistItemList({ watchlistBoard }: Props) {
           key={item.$id}
           // onDropOverListItem={handleDropOverListItem(card.id)}
         >
-          <WatchlistCard watchlistItem={item} isActive={true} />
+          <WatchlistItemCard watchlistItem={item} isActive={true} />
           {/* <MyKanbanBoardCard
                       card={card}
                       isActive={activeCardId === card.id}

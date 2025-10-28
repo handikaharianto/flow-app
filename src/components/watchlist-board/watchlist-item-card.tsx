@@ -22,7 +22,7 @@ type Props = {
   //   onUpdateCardTitle: (cardId: string, cardTitle: string) => void;
 };
 
-function WatchlistCard({ watchlistItem, isActive }: Props) {
+function WatchlistItemCard({ watchlistItem, isActive }: Props) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const kanbanBoardCardReference = useRef<HTMLButtonElement>(null);
   // This ref tracks the previous `isActive` state. It is used to refocus the
@@ -142,4 +142,4 @@ function WatchlistCard({ watchlistItem, isActive }: Props) {
   );
 }
 
-export default WatchlistCard;
+export default WatchlistItemCard;
