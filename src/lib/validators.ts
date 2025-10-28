@@ -29,3 +29,11 @@ export const addWatchlistBoardSchema = z.object({
     .min(1, "Title is required")
     .max(50, "Title must be at most 50 characters long"),
 });
+
+export const addWatchlistItemSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(50, "Title must be at most 50 characters long"),
+  watchlist: z.string().optional(),
+});
