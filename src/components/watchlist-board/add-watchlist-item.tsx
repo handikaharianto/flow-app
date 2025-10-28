@@ -10,6 +10,7 @@ import { addWatchlistItem } from "@/lib/actions/watchlist.actions";
 import { addWatchlistItemSchema } from "@/lib/validators";
 import { Watchlist, WatchlistItem } from "@/types/watchlist";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { watch } from "fs";
 import { PlusIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -51,18 +52,26 @@ function AddWatchlistItem({ watchlistBoard, onAddWatchlistItem }: Props) {
   // }
 
   async function submitForm(data: z.infer<typeof addWatchlistItemSchema>) {
-    const response = await addWatchlistItem({
+    const watchlistItem = {
       ...data,
       watchlist: watchlistBoard.$id,
-    });
+    };
+    const response = await addWatchlistItem(watchlistItem);
 
     if (response.success) {
       toast.success(response.message);
 
-      onAddWatchlistItem(response.data as unknown as WatchlistItem);
+      onAddWatchlistItem({
+        ...watchlistItem,
+        $id: response.data!.$id,
+        $createdAt: response.data!.$createdAt,
+        $updatedAt: response.data!.$updatedAt,
+      });
     } else if (!response.success) {
       toast.error(response.message);
     }
+
+    handleCancelClick();
   }
 
   return showNewCardForm ? (
