@@ -21,6 +21,7 @@ async function ProtectedLayout({
           "--header-height": "calc(var(--spacing) * 12)",
         } as React.CSSProperties
       }
+      className="overflow-x-hidden"
     >
       <AppSidebar
         user={{
@@ -36,9 +37,7 @@ async function ProtectedLayout({
         <SiteHeader />
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-1 flex-col gap-4 py-4 md:gap-6 md:py-6">
-              {children}
-            </div>
+            <div className="flex-1">{children}</div>
           </div>
         </div>
       </SidebarInset>

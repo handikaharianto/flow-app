@@ -1,4 +1,3 @@
-import { KanbanBoardCircleColor } from "@/components/kanban";
 import WatchlistKanbanBoard from "@/components/watchlist-board/watchlist-kanban-board";
 import {
   getWatchlistBoard,
@@ -22,7 +21,11 @@ async function WatchlistPage() {
     };
   });
 
-  return <WatchlistKanbanBoard watchlists={watchlists} />;
+  return (
+    <div className="flex h-full flex-col">
+      <WatchlistKanbanBoard watchlists={watchlists} />
+    </div>
+  );
 }
 
 export default WatchlistPage;

@@ -3,7 +3,6 @@
 import {
   KanbanBoard,
   KanbanBoardColumn,
-  KanbanBoardExtraMargin,
   KanbanBoardProvider,
 } from "@/components/kanban";
 import AddWatchlistBoard from "@/components/watchlist-board/add-watchlist-board";
@@ -48,7 +47,7 @@ function WatchlistKanbanBoard({ watchlists }: Props) {
 
   return (
     <KanbanBoardProvider>
-      <KanbanBoard className="px-4">
+      <KanbanBoard className="px-4 py-4 md:py-6 lg:px-6">
         {/* Kanban Board */}
         {watchlistBoards.map((watchlistBoard: Watchlist) =>
           jsLoaded ? (
@@ -81,7 +80,6 @@ function WatchlistKanbanBoard({ watchlists }: Props) {
           <div>loading</div>
         )}
       </KanbanBoard>
-      <KanbanBoardExtraMargin />
     </KanbanBoardProvider>
   );
 }
