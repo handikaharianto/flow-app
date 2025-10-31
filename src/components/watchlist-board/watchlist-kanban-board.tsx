@@ -3,14 +3,14 @@
 import {
   KanbanBoard,
   KanbanBoardColumn,
-  KanbanBoardExtraMargin,
   KanbanBoardProvider,
 } from "@/components/kanban";
 import AddWatchlistBoard from "@/components/watchlist-board/add-watchlist-board";
+import AddWatchlistItem from "@/components/watchlist-board/add-watchlist-item";
 import WatchlistBoardHeader from "@/components/watchlist-board/watchlist-board-header";
 import WatchlistItemList from "@/components/watchlist-board/watchlist-item-list";
 import { useJsLoaded } from "@/hooks/use-js-loaded";
-import { Watchlist } from "@/types/watchlist";
+import { Watchlist, WatchlistItem } from "@/types/watchlist";
 import { useState } from "react";
 
 type Props = {
@@ -31,9 +31,23 @@ function WatchlistKanbanBoard({ watchlists }: Props) {
     ]);
   }
 
+  function handleAddWatchlistItem(newWatchlistItem: WatchlistItem) {
+    setWatchlistBoards((currentWatchlistBoards) => {
+      return currentWatchlistBoards.map((watchlistBoard) => {
+        if (watchlistBoard.$id === newWatchlistItem.watchlist) {
+          return {
+            ...watchlistBoard,
+            items: [...watchlistBoard.items, newWatchlistItem],
+          };
+        }
+        return watchlistBoard;
+      });
+    });
+  }
+
   return (
     <KanbanBoardProvider>
-      <KanbanBoard className="p-4">
+      <KanbanBoard className="px-4 py-4 md:py-6 lg:px-6">
         {/* Kanban Board */}
         {watchlistBoards.map((watchlistBoard: Watchlist) =>
           jsLoaded ? (
@@ -49,7 +63,10 @@ function WatchlistKanbanBoard({ watchlists }: Props) {
               {/* Kanban Item List */}
               <WatchlistItemList watchlistBoard={watchlistBoard} />
 
-              {/* <AddWatchlistCard watchlistBoard={watchlistBoard} /> */}
+              <AddWatchlistItem
+                watchlistBoard={watchlistBoard}
+                onAddWatchlistItem={handleAddWatchlistItem}
+              />
             </KanbanBoardColumn>
           ) : (
             <div key={watchlistBoard.$id}>loading</div>
@@ -63,7 +80,6 @@ function WatchlistKanbanBoard({ watchlists }: Props) {
           <div>loading</div>
         )}
       </KanbanBoard>
-      <KanbanBoardExtraMargin />
     </KanbanBoardProvider>
   );
 }

@@ -5,8 +5,3 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
-
-export type SignInUserResponse = {
-  success: boolean;
-  message: string;
-};
