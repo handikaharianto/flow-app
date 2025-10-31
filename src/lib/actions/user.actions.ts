@@ -1,24 +1,23 @@
 "use server";
 
 import { createAdminClient, createSessionClient } from "@/lib/appwrite";
-import { SignInUserResponse } from "@/types/user";
+import { formatErrorMessage } from "@/lib/utils";
+import { signInUserSchema } from "@/lib/validators";
+import { ActionResponse } from "@/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { AppwriteException, Models } from "node-appwrite";
+import { Models } from "node-appwrite";
+import { z } from "zod";
 
 export async function signInUser(
-  prevState: unknown,
-  formData: FormData,
-): Promise<SignInUserResponse> {
-  const email = formData.get("email");
-  const password = formData.get("password");
-
+  data: z.infer<typeof signInUserSchema>,
+): Promise<ActionResponse> {
   try {
     const { account } = await createAdminClient();
 
     const session = await account.createEmailPasswordSession({
-      email: email as string,
-      password: password as string,
+      email: data.email,
+      password: data.password,
     });
 
     (await cookies()).set("session", session.secret, {
@@ -34,17 +33,7 @@ export async function signInUser(
       message: "You have successfully signed in.",
     };
   } catch (error) {
-    if (error instanceof AppwriteException) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-
-    return {
-      success: false,
-      message: "An unknown error occurred. Please try again.",
-    };
+    return formatErrorMessage(error);
   }
 }
 

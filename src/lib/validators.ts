@@ -1,6 +1,14 @@
 import { TradeResult, TradeSide } from "@/types/trade";
 import { z } from "zod";
 
+export const signInUserSchema = z.object({
+  email: z.email("Invalid email address."),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long.")
+    .max(265, "Password must be at most 256 characters long."),
+});
+
 export const addTradePlanSchema = z.object({
   symbol: z
     .string()
